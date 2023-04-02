@@ -1,0 +1,34 @@
+{
+  "name": "school_management_system",
+  "version": "1.0.0",
+  "description": "A school management system that uses authentication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xuxuh15/School_Management_System.git"
+  },
+  "keywords": [
+    "schoolManagement",
+    "nodejs"
+  ],
+  "author": "John Hilton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xuxuh15/School_Management_System/issues"
+  },
+  "homepage": "https://github.com/Xuxuh15/School_Management_System#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22"
+  }
+}
