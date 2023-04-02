@@ -3,6 +3,10 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();   //assign express to app variable
 
+//Router middleware
+
+const adminRouter = require('../routes/Staff/adminRouter');
+
 //Middlewares
 
 app.use(morgan("dev")); 
@@ -11,36 +15,10 @@ app.use(morgan("dev"));
 
 //admin register
 
-app.post("/api/v1/admins/register", (req, res)=>{
-    try{
-        res.status(201).json({
-            status: "success",
-            data: "Admin has been registered",
-        }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-}); 
+app.use("/api/v1/admins", adminRouter); 
 
 //admin login
-app.post("/api/v1/admins/login", (req, res)=>{
-    try{
-        res.status(201).json({
-            status: "success",
-            data: "Admin has been logged in",
-        }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-}); 
+app.use("/api/v1/admins/login", adminRouter); 
 
 //get all admins
 
@@ -109,6 +87,8 @@ app.delete("/api/v1/admins/:id", (req, res)=>{
     }
 }); 
 
+//admin suspend teacher
+
 app.put("/api/v1/admins/suspend/teacher/:id", (req, res)=>{
     try{
         res.status(201).json({
@@ -124,11 +104,79 @@ app.put("/api/v1/admins/suspend/teacher/:id", (req, res)=>{
     }
 }); 
 
-app.post("/api/v1/admins/unsuspend/teacher/:id", (req, res)=>{
+//admin unsuspend teacher
+app.put("/api/v1/admins/unsuspend/teacher/:id", (req, res)=>{
     try{
         res.status(201).json({
             status: "success",
             data: "Admin unsuspend teacher",
+        }); 
+    }
+    catch(error){
+        res.json({
+            status: "failed",
+            error: error.message, 
+        });  
+    }
+}); 
+
+//admin withdrawl teacher
+
+app.put("/api/v1/admins/withdrawl/teacher/:id", (req, res)=>{
+    try{
+        res.status(201).json({
+            status: "success",
+            data: "Admin withdrawl teacher",
+        }); 
+    }
+    catch(error){
+        res.json({
+            status: "failed",
+            error: error.message, 
+        });  
+    }
+}); 
+
+//admin unwithdrawl teacher
+app.put("/api/v1/admins/unwithdrawl/teacher/:id", (req, res)=>{
+    try{
+        res.status(201).json({
+            status: "success",
+            data: "Admin unwithdrawl teacher",
+        }); 
+    }
+    catch(error){
+        res.json({
+            status: "failed",
+            error: error.message, 
+        });  
+    }
+}); 
+
+//admin publish exam results
+
+app.put("/api/v1/admins/publish/exam/:id", (req, res)=>{
+    try{
+        res.status(201).json({
+            status: "success",
+            data: "Admin publish exam",
+        }); 
+    }
+    catch(error){
+        res.json({
+            status: "failed",
+            error: error.message, 
+        });  
+    }
+}); 
+
+//admin unpublish result
+
+app.put("/api/v1/admins/unpublish/exam/:id", (req, res)=>{
+    try{
+        res.status(201).json({
+            status: "success",
+            data: "Admin unpublish exam result",
         }); 
     }
     catch(error){
