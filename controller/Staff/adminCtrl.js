@@ -32,7 +32,22 @@ exports.adminRegisterCtrl = async (req, res)=>{
 };
 
 //admin login logic
-exports.adminLoginCtrl = (req, res)=>{
+exports.adminLoginCtrl = async (req, res)=>{
+    const {email,password} = req.body; //get email and password from request
+
+    //fethc user from database
+    const user =  await Admin.findOne({email}); 
+
+    //check if user exists
+    if(!user){
+        return res.json({message: "User not found" });
+    }
+    if(user && user.verifyPassword(password)){
+        return res.json({data: user});
+    }
+    else{
+        return res.json({message: 'Invalid login credentials'}); 
+    }
     try{
         res.status(201).json({
             status: "success",
