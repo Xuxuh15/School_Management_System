@@ -31,7 +31,7 @@ const adminSchema = new mongoose.Schema(
 
 adminSchema.pre('save', async function(next){
     console.log('I have been called');
-    //to avoid rehashing password when admin is updated
+    //to avoid rehashing password when admin is updated, password is rehashed only when password is changed
     if(!this.isModified('password')){
         next();
     }
@@ -40,6 +40,10 @@ adminSchema.pre('save', async function(next){
     this.password = await bcrypt.hash(this.password,salt);
     next(); //instance of admin password
 });
+
+adminSchema.methods.verifyPassword = async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword, this.password); 
+}
 
 //model
 
