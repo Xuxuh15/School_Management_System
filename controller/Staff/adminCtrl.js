@@ -42,7 +42,7 @@ exports.adminLoginCtrl = async (req, res)=>{
     if(!user){
         return res.json({message: "User not found" });
     }
-    if(user && user.verifyPassword(password)){
+    if(user &&  await user.verifyPassword(password)){
         return res.json({data: user});
     }
     else{
