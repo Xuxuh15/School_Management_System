@@ -1,11 +1,26 @@
 
+//import Admin mongoose model
+const Admin = require('../../model/Staff/Admin');
 
 //admin register logic
-exports.adminRegisterCtrl = (req, res)=>{
+exports.adminRegisterCtrl = async (req, res)=>{
+    const {name, email, password} = req.body; //data needed for admin model. Default role is admin
+
     try{
+    //check if email exists---indicates admin already exists
+    const adminFound = await Admin.findOne({email});
+    if(adminFound){
+        res.json("Admin exists");
+    }
+    //register admin
+    const user = await Admin.create({
+        name,
+        email,
+        password,
+    });
         res.status(201).json({
             status: "success",
-            data: "Admin has been registered",
+            data: user,
         }); 
     }
     catch(error){
