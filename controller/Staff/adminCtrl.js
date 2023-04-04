@@ -53,21 +53,15 @@ exports.adminLoginCtrl = AsyncHandler(async (req, res)=>{
     }
 }); 
 
-//admin get all logic
-exports.adminGetAllCtrl = (req, res)=>{
-    try{
-        res.status(201).json({
-            status: "success",
-            data: "All admins",
-        }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-};
+//admin get all admins logic
+exports.adminGetAllCtrl = AsyncHandler(async (req, res)=>{
+    const admins = await Admin.find();
+    res.status(200).json({
+        status: "successful",
+        message: "Successfully fetched all Admins",
+        data: admins
+    });
+})
 
 //admin get single logic
 exports.getAdminProfileCtrl =AsyncHandler( async (req, res)=>{
