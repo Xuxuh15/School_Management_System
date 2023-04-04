@@ -1,16 +1,17 @@
-
+const AsyncHandler = require('express-async-handler');
 //import Admin mongoose model
 const Admin = require('../../model/Staff/Admin');
-
+const generateToken = require('../../utils/generateToken');
+const verifyToken = require('../../utils/verifyToken');
 //admin register logic
-exports.adminRegisterCtrl = async (req, res)=>{
+exports.adminRegisterCtrl = AsyncHandler(async (req, res)=>{
     const {name, email, password} = req.body; //data needed for admin model. Default role is admin
 
-    try{
+    
     //check if email exists---indicates admin already exists
     const adminFound = await Admin.findOne({email});
     if(adminFound){
-        res.json("Admin exists");
+        throw new Error("Admin exists");
     }
     //register admin
     const user = await Admin.create({
@@ -22,17 +23,11 @@ exports.adminRegisterCtrl = async (req, res)=>{
             status: "success",
             data: user,
         }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-};
+    
+});
 
 //admin login logic
-exports.adminLoginCtrl = async (req, res)=>{
+exports.adminLoginCtrl = AsyncHandler(async (req, res)=>{
     const {email,password} = req.body; //get email and password from request
 
     //fethc user from database
@@ -43,24 +38,15 @@ exports.adminLoginCtrl = async (req, res)=>{
         return res.json({message: "User not found" });
     }
     if(user &&  await user.verifyPassword(password)){
-        return res.json({data: user});
+        //save user into request object
+        const token = generateToken(user._id);
+        const verified = verifyToken(token);
+        return res.json({data: generateToken(user._id),user,verified});
     }
     else{
         return res.json({message: 'Invalid login credentials'}); 
     }
-    try{
-        res.status(201).json({
-            status: "success",
-            data: "Admin has been logged in",
-        }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-}; 
+}); 
 
 //admin get all logic
 exports.adminGetAllCtrl = (req, res)=>{
@@ -81,6 +67,7 @@ exports.adminGetAllCtrl = (req, res)=>{
 //admin get single logic
 exports.adminGetSingleCtrl = (req, res)=>{
     try{
+        console.log(req.userAuth);
         res.status(201).json({
             status: "success",
             data: "Single admin",
