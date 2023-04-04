@@ -5,6 +5,8 @@ adminGetSingleCtrl,adminUpdateAdminCtrl,adminDeleteAdminCtrl,
 adminSuspendTeacherCtrl,adminUnsuspendTeacherCtrl,
 adminWithdrawlTeacherCtrl,adminUnwithdrawlTeacherCtrl,
 adminPublishExamCtrl,adminUnpublishExamCtrl} = require('../../controller/Staff/adminCtrl');
+const isLoggedIn = require('../../middleware/isLoggedIn');
+
 
 //@desc admin register
 //@route POST /api/v1/admins/register
@@ -28,7 +30,7 @@ adminRouter.get('/', adminGetAllCtrl);
 //@route GET /api/v1/admins/:id
 //@access private
 
-adminRouter.get('/:id', adminGetSingleCtrl);
+adminRouter.get('/:id',isLoggedIn, adminGetSingleCtrl);
 
 
 //@desc admin update admin
