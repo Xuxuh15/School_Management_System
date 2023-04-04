@@ -65,21 +65,22 @@ exports.adminGetAllCtrl = (req, res)=>{
 };
 
 //admin get single logic
-exports.adminGetSingleCtrl = (req, res)=>{
-    try{
-        console.log(req.userAuth);
-        res.status(201).json({
-            status: "success",
-            data: "Single admin",
-        }); 
-    }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-};
+exports.getAdminProfileCtrl =AsyncHandler( async (req, res)=>{
+    //await fetching of Admin profile
+   const admin = await Admin.findById(req.userAuth.id).select('-password -createdAt -updatedAt'); //exclude password and createdAt date
+   //if found
+   if(admin){
+    res.status(200).json({
+        status: "success",
+        data: admin
+    });
+   }
+   //if not found
+   else{
+    throw new Error('Admin not found');
+   }
+
+});
 
 //amdin update admin logic
 exports.adminUpdateAdminCtrl = (req, res)=>{

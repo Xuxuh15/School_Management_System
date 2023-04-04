@@ -1,7 +1,7 @@
 const express = require('express'); 
 const adminRouter = express.Router(); 
 const {adminRegisterCtrl,adminLoginCtrl,adminGetAllCtrl,
-adminGetSingleCtrl,adminUpdateAdminCtrl,adminDeleteAdminCtrl,
+getAdminProfileCtrl,adminUpdateAdminCtrl,adminDeleteAdminCtrl,
 adminSuspendTeacherCtrl,adminUnsuspendTeacherCtrl,
 adminWithdrawlTeacherCtrl,adminUnwithdrawlTeacherCtrl,
 adminPublishExamCtrl,adminUnpublishExamCtrl} = require('../../controller/Staff/adminCtrl');
@@ -30,7 +30,7 @@ adminRouter.get('/', adminGetAllCtrl);
 //@route GET /api/v1/admins/:id
 //@access private
 
-adminRouter.get('/:id',isLoggedIn, adminGetSingleCtrl);
+adminRouter.get('/profile',isLoggedIn, getAdminProfileCtrl);
 
 
 //@desc admin update admin
