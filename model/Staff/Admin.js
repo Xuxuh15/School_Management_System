@@ -20,6 +20,36 @@ const adminSchema = new mongoose.Schema(
             type: String,
             default: "admin", 
         },
+        academicTerm: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "AcademicTerm", 
+            }, 
+        ],
+        academicYear: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "AcademicYear", 
+            }, 
+        ],
+        classLevel: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "ClassLevel",
+            }, 
+        ],
+        teachers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Teachers",
+            }, 
+        ],
+        students: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Students",
+            }, 
+        ],
     }, 
     {
         timestamps: true,   //this will automatically generate a field called created at and then it will be updated
@@ -41,6 +71,7 @@ adminSchema.pre('save', async function(next){
     next(); //instance of admin password
 });
 
+//verify password (returns boolean value)
 adminSchema.methods.verifyPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password); 
 }
