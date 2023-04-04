@@ -18,6 +18,7 @@ exports.adminRegisterCtrl = AsyncHandler(async (req, res)=>{
         name,
         email,
         password,
+        message: "Admin registered successfully!"
     });
         res.status(201).json({
             status: "success",
@@ -41,7 +42,11 @@ exports.adminLoginCtrl = AsyncHandler(async (req, res)=>{
         //save user into request object
         const token = generateToken(user._id);
         const verified = verifyToken(token);
-        return res.json({data: generateToken(user._id),user,verified});
+        return res.json(
+         {
+            data: generateToken(user._id),
+            message: "Admin logged in successfully"
+         });
     }
     else{
         return res.json({message: 'Invalid login credentials'}); 
@@ -72,7 +77,8 @@ exports.getAdminProfileCtrl =AsyncHandler( async (req, res)=>{
    if(admin){
     res.status(200).json({
         status: "success",
-        data: admin
+        data: admin,
+        message: "Admin profile fetched successfully"
     });
    }
    //if not found
