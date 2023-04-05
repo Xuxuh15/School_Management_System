@@ -56,25 +56,6 @@ const adminSchema = new mongoose.Schema(
     }
 ); 
 
-//premiddleware before saving document into database
-//uses function syntax as opposed to arrow to allow for bidning of this (instance of admin)
-
-adminSchema.pre('save', async function(next){
-    console.log('I have been called');
-    //to avoid rehashing password when admin is updated, password is rehashed only when password is changed
-    if(!this.isModified('password')){
-        next();
-    }
-    //salt
-    const salt = await bcrypt.genSalt(10); 
-    this.password = await bcrypt.hash(this.password,salt);
-    next(); //instance of admin password
-});
-
-//verify password (returns boolean value)
-adminSchema.methods.verifyPassword = async function(enteredPassword){
-    return await bcrypt.compare(enteredPassword, this.password); 
-}
 
 //model
 
