@@ -3,11 +3,13 @@ const AsyncHandler = require('express-async-handler');
 const Admin = require('../../model/Staff/Admin');
 const generateToken = require('../../utils/generateToken');
 const verifyToken = require('../../utils/verifyToken');
+//require bcrypt
+const bcrypt = require('bcryptjs');
+//import password helpers
+const { isMatched, hashPassword} = require('../../utils/helpers');
 //admin register logic
 exports.adminRegisterCtrl = AsyncHandler(async (req, res)=>{
     const {name, email, password} = req.body; //data needed for admin model. Default role is admin
-
-    
     //check if email exists---indicates admin already exists
     const adminFound = await Admin.findOne({email});
     if(adminFound){
@@ -17,7 +19,7 @@ exports.adminRegisterCtrl = AsyncHandler(async (req, res)=>{
     const user = await Admin.create({
         name,
         email,
-        password,
+        password: await hashPassword(password),
         message: "Admin registered successfully!"
     });
         res.status(201).json({
@@ -36,20 +38,22 @@ exports.adminLoginCtrl = AsyncHandler(async (req, res)=>{
 
     //check if user exists
     if(!user){
-        return res.json({message: "User not found" });
+        return res.json({message: "User not found. Check login credentials and try again" });
     }
-    if(user &&  await user.verifyPassword(password)){
-        //save user into request object
-        const token = generateToken(user._id);
-        const verified = verifyToken(token);
-        return res.json(
-         {
-            data: generateToken(user._id),
-            message: "Admin logged in successfully"
-         });
+
+    //verify password
+
+    const passwordVerified = await isMatched(password, user.password);
+
+    if(!passwordVerified){
+        return res.json({message: "Invalid login credentials"});
     }
     else{
-        return res.json({message: 'Invalid login credentials'}); 
+         return res.json(
+            {
+               data: generateToken(user._id),
+               message: "Admin logged in successfully"
+            });
     }
 }); 
 
@@ -83,20 +87,36 @@ exports.getAdminProfileCtrl =AsyncHandler( async (req, res)=>{
 });
 
 //amdin update admin logic
-exports.adminUpdateAdminCtrl = (req, res)=>{
-    try{
-        res.status(201).json({
+exports.adminUpdateAdminCtrl = AsyncHandler(async (req, res)=>{
+    //grab name, email, and password properties
+    const {email, name, password} = req.body;
+    //check if inputted email already exists
+    const emailExists =  await Admin.findOne({email});
+
+    if(emailExists){
+        throw new Error("Email already exists");
+    }
+
+
+    if(password){
+        const admin = await Admin.findByIdAndUpdate(req.userAuth._id, {
+            name, 
+            email, 
+            password: await hashPassword(password),
+        },
+        {
+            new: true, //we want to use the updated data
+            runValidators: true,  //insist on validation
+        });
+        res.status(200).json({
             status: "success",
-            data: "Update admin",
-        }); 
+            data: admin,
+            message: "Admin successfully updated"
+
+        })
     }
-    catch(error){
-        res.json({
-            status: "failed",
-            error: error.message, 
-        });  
-    }
-};
+});
+
 
 //admin delete admin logic
 exports.adminDeleteAdminCtrl = (req, res)=>{
