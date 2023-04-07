@@ -61,3 +61,34 @@ exports.getSingleAcademicYear = AsyncHandler( async(req, res)=>{
     }
 
 })
+
+//@desc Updates a single academic years stored in database
+// PUT /api/v1/academic-years/:id
+//@private
+exports.updateAcademicYear = AsyncHandler(async(req, res)=>{
+    //grab parameters from the request object
+    const {name, fromYear, toYear, createdBy} = req.body; 
+    //check if name of academic year exists already
+    const academicYear = await AcademicYear.findOne({name});
+    if(academicYear){
+        throw new Error('Academic Year with that name already exists');
+    }
+    //use the url path to find Academic Year in the database
+    const academicYearUpdated = await AcademicYear.findByIdAndUpdate(req.params.id, {
+        name,
+        fromYear,
+        toYear,
+        createdBy: req.userAuth._id
+
+    },
+    {
+        new: true
+    });
+    res.status(201).json({
+        status: "Success",
+        message: "Academic Year was successfully updated",
+        data: academicYearUpdated
+    });
+
+});
+
