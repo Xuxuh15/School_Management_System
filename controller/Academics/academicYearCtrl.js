@@ -6,11 +6,24 @@ const Admin = require('../../model/Staff/Admin');
 // POST /api/v1/academic-years
 //@private
 exports.createAcademicYear = AsyncHandler(async(req, res)=>{
-    const {name, fromYear, toYear, createdBy} = req.body; 
+    const {name, fromYear, toYear} = req.body; 
+    const academicYear = await AcademicYear.findOne({name});
+    //check if academic year exists already
+    if(academicYear){
+        throw new Error('Academic Year already exists');
+    }
+
+    //create new academic year
+    const academicYearCreated = await AcademicYear.create({
+        name,
+        fromYear,
+        toYear,
+        createdBy: req.userAuth._id
+    });
     res.status(201).json({
         status: "success",
-        data: '',
-        message: "Academic Year successfully created"
+        message: "Academic Year successfully created",
+        data: academicYearCreated
     });
 });
 
@@ -18,12 +31,33 @@ exports.createAcademicYear = AsyncHandler(async(req, res)=>{
 //@desc Fetches all academic years stored in database
 // GET /api/v1/academic-years
 //@private
-exports.fetchAllAcademicYears = AsyncHandler(async (req, res)=>{
-    const data = await AcademicYear.find({});
+exports.getAcademicYears = AsyncHandler(async (req, res)=>{
+    const academicYears = await AcademicYear.find();
 
     res.status(200).json({
         status: "Successs",
-        data: data,
-        message: "Academic years successfully fetched"
-    })
+        message: "Academic years successfully fetched",
+        data: academicYears
+        
+    });
 });
+
+//@desc Fetches a single academic years stored in database
+// GET /api/v1/academic-years/:id
+//@private
+exports.getSingleAcademicYear = AsyncHandler( async(req, res)=>{
+    const academicYearFound = await AcademicYear.findById(req.params.id);
+
+    if(academicYearFound){
+        res.status(200).json({
+            status: "Successs",
+            message: "Academic year successfully fetched",
+            data: academicYearFound
+            
+        });
+    }
+    else{
+        throw new Error('Academic Year could not be found. Chekck id and try again');
+    }
+
+})
