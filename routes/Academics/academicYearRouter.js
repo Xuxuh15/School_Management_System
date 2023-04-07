@@ -1,7 +1,7 @@
 const express = require('express'); 
 
 //academicYearRouter call back functions
-const {createAcademicYear, fetchAllAcademicYears} = require('../../controller/Academics/academicYearCtrl');
+const {createAcademicYear, getAcademicYears, getSingleAcademicYear, updateAcademicYear} = require('../../controller/Academics/academicYearCtrl');
 
 //middlewares
 //checks if user is logged in
@@ -16,7 +16,13 @@ const academicYearRouter = express.Router();
 academicYearRouter.post("/", isLoggedIn, isAdmin,  createAcademicYear);
 
 //fetch all academic years
-academicYearRouter.get("/", isLoggedIn, isAdmin, fetchAllAcademicYears );
+academicYearRouter.get("/", isLoggedIn, isAdmin, getAcademicYears );
+
+//fetch academic year by id
+academicYearRouter.get("/:id", isLoggedIn, isAdmin, getSingleAcademicYear);
+
+//update a academic year by id
+academicYearRouter.put("/:id", isLoggedIn, isAdmin, updateAcademicYear);
 
 module.exports = academicYearRouter;
 
