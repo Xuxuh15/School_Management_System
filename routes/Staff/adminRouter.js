@@ -5,7 +5,10 @@ getAdminProfileCtrl,adminUpdateAdminCtrl,adminDeleteAdminCtrl,
 adminSuspendTeacherCtrl,adminUnsuspendTeacherCtrl,
 adminWithdrawlTeacherCtrl,adminUnwithdrawlTeacherCtrl,
 adminPublishExamCtrl,adminUnpublishExamCtrl} = require('../../controller/Staff/adminCtrl');
+//middleware that checks if user is logged in
 const isLoggedIn = require('../../middleware/isLoggedIn');
+//middleware checks if user is an Admin
+const isAdmin = require('../../middleware/isAdmin'); 
 
 
 //@desc admin register
@@ -24,19 +27,19 @@ adminRouter.post('/login', adminLoginCtrl);
 //@route GET /api/v1/admins
 //@access private
 
-adminRouter.get('/', adminGetAllCtrl);
+adminRouter.get('/', isLoggedIn, isAdmin, adminGetAllCtrl);
 
 //@desc admin get single admin
 //@route GET /api/v1/admins/:id
 //@access private
 
-adminRouter.get('/profile',isLoggedIn, getAdminProfileCtrl);
+adminRouter.get('/profile',isLoggedIn,isAdmin, getAdminProfileCtrl);
 
 
 //@desc admin update admin
 //@route PUT /api/v1/admins/:id
 //@access private
-adminRouter.put('/:id', adminUpdateAdminCtrl )
+adminRouter.put('/',isLoggedIn, isAdmin, adminUpdateAdminCtrl);
 
 //@desc admin delete admin
 //@route DELETE /api/v1/admins/:id
