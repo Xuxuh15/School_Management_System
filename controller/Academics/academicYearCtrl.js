@@ -20,6 +20,12 @@ exports.createAcademicYear = AsyncHandler(async(req, res)=>{
         toYear,
         createdBy: req.userAuth._id
     });
+    
+    //save academic year into admin profile
+    const admin = await Admin.findById(req.userAuth._id);
+    admin.academicYear.push(academicYearCreated);
+    await admin.save();
+
     res.status(201).json({
         status: "success",
         message: "Academic Year successfully created",
@@ -92,3 +98,21 @@ exports.updateAcademicYear = AsyncHandler(async(req, res)=>{
 
 });
 
+
+//@desc Deletes a single academic years stored in database
+// DELETE /api/v1/academic-years/:id
+//@private
+exports.deleteAcademicYear = AsyncHandler(async(req, res)=>{
+
+    const academicYearToDelete = await AcademicYear.findById(req.params.id);
+
+    if(!academicYearToDelete){
+        throw new Error('Academic Year could not be found');
+    }
+    await AcademicYear.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+        status: "Success",
+        message: "Academic Year deleted successfully"
+    })
+});
