@@ -18,6 +18,12 @@ const academicYearRouter = require('../routes/Academics/academicYearRouter');
 //academic term router
 const academicTermRouter = require('../routes/Academics/academicTermRouter');
 
+//class level router
+const classLevelRouter = require('../routes/Academics/classLevelRouter');
+
+//program router
+const programRouter = require('../routes/Academics/programRouter');
+
 //Middlewares
 
 app.use(morgan("dev")); 
@@ -34,6 +40,12 @@ app.use("/api/v1/academic-years", academicYearRouter);
 
 //Academic Term Routes
 app.use("/api/v1/academic-terms", academicTermRouter);
+
+//Class Level Routes
+app.use("/api/v1/class-levels", classLevelRouter);
+
+//Program Routes
+app.use("/api/v1/programs", programRouter);
 
 //Error Middleware
 //catches errors from routes and sends them back in JSON format
