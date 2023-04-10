@@ -4,7 +4,7 @@ const Admin = require('../../model/Staff/Admin');
 
 //@desc Creates a new academic year and stores it in database
 // POST /api/v1/academic-years
-//@private
+//@access private
 exports.createAcademicYear = AsyncHandler(async(req, res)=>{
     const {name, fromYear, toYear} = req.body; 
     const academicYear = await AcademicYear.findOne({name});
@@ -36,7 +36,7 @@ exports.createAcademicYear = AsyncHandler(async(req, res)=>{
 
 //@desc Fetches all academic years stored in database
 // GET /api/v1/academic-years
-//@private
+//@acces sprivate
 exports.getAcademicYears = AsyncHandler(async (req, res)=>{
     const academicYears = await AcademicYear.find();
 
@@ -50,7 +50,7 @@ exports.getAcademicYears = AsyncHandler(async (req, res)=>{
 
 //@desc Fetches a single academic years stored in database
 // GET /api/v1/academic-years/:id
-//@private
+//@acess private
 exports.getSingleAcademicYear = AsyncHandler( async(req, res)=>{
     const academicYearFound = await AcademicYear.findById(req.params.id);
 
@@ -70,7 +70,7 @@ exports.getSingleAcademicYear = AsyncHandler( async(req, res)=>{
 
 //@desc Updates a single academic years stored in database
 // PUT /api/v1/academic-years/:id
-//@private
+//@acess private
 exports.updateAcademicYear = AsyncHandler(async(req, res)=>{
     //grab parameters from the request object
     const {name, fromYear, toYear, createdBy} = req.body; 
@@ -101,7 +101,7 @@ exports.updateAcademicYear = AsyncHandler(async(req, res)=>{
 
 //@desc Deletes a single academic years stored in database
 // DELETE /api/v1/academic-years/:id
-//@private
+//@acess private
 exports.deleteAcademicYear = AsyncHandler(async(req, res)=>{
 
     const academicYearToDelete = await AcademicYear.findById(req.params.id);

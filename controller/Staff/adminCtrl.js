@@ -71,7 +71,8 @@ exports.adminGetAllCtrl = AsyncHandler(async (req, res)=>{
 //admin get single logic
 exports.getAdminProfileCtrl =AsyncHandler( async (req, res)=>{
     //await fetching of Admin profile
-   const admin = await Admin.findById(req.userAuth.id).select('-password -createdAt -updatedAt').populate("academicYear academicTerm"); //exclude password and createdAt date
+   const admin = await Admin.findById(req.userAuth.id).select('-password -createdAt -updatedAt')
+   .populate("academicYear academicTerm classLevel programs"); //exclude password and createdAt date
    //if found
    if(admin){
     res.status(200).json({
