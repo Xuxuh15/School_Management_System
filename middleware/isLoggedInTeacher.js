@@ -1,8 +1,8 @@
 const verifyToken = require('../utils/verifyToken');
 //require Admin model---access to database
-const Admin = require('../model/Staff/Admin');
+const Teacher = require('../model/Staff/Teacher');
 
-const isLoggedIn = async (req, res, next)=>{
+const isLoggedInTeacher = async (req, res, next)=>{
     //get token from header
     const headerObj = req.headers; 
     //optional chaining 
@@ -10,8 +10,8 @@ const isLoggedIn = async (req, res, next)=>{
     //verify token
     const verifiedToken = verifyToken(token);
     if(verifiedToken){ 
-        //find Admin --- exclude password in returned user
-        const user = await Admin.findById(verifiedToken.id).select('name email role');
+        //find Teacher --- exclude password in returned user
+        const user = await Teacher.findById(verifiedToken.id).select('name email role');
         //saver user in request body 
         req.userAuth = user;
         //move onto next middleware
@@ -24,4 +24,4 @@ const isLoggedIn = async (req, res, next)=>{
     } 
 }
 
-module.exports = isLoggedIn; 
+module.exports = isLoggedInTeacher; 
