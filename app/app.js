@@ -24,6 +24,15 @@ const classLevelRouter = require('../routes/Academics/classLevelRouter');
 //program router
 const programRouter = require('../routes/Academics/programRouter');
 
+//subject router
+const subjectRouter = require('../routes/Academics/subjectRouter');
+
+//yearGroup router
+const yearGroupRouter = require('../routes/Academics/yearGroupRouter');
+
+//teacher router
+const teacherRouter = require('../routes/Staff/teacherRouter');
+
 //Middlewares
 
 app.use(morgan("dev")); 
@@ -46,6 +55,15 @@ app.use("/api/v1/class-levels", classLevelRouter);
 
 //Program Routes
 app.use("/api/v1/programs", programRouter);
+
+//Subject Routes
+app.use("/api/v1/subjects", subjectRouter);
+
+//Year Group routes
+app.use("/api/v1/year-groups", yearGroupRouter);
+
+//Teacher route
+app.use("/api/v1/teachers", teacherRouter);
 
 //Error Middleware
 //catches errors from routes and sends them back in JSON format
