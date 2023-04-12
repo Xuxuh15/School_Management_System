@@ -73,7 +73,7 @@ exports.getClassLevel = AsyncHandler(async(req, res)=>{
 });
 
 //@desc Updates a single classes from database
-// POST /api/v1/class-levels/:id
+// PUT /api/v1/class-levels/:id
 //@access private
 
 exports.updateClassLevel = AsyncHandler(async(req,res)=>{
@@ -92,8 +92,8 @@ exports.updateClassLevel = AsyncHandler(async(req,res)=>{
         createdBy: req.userAuth._id
     },
     {
-         new: true,
-    }); 
+        new: true
+    })
     console.log(classLevelUpdated);
     res.status(201).json({
         status: "Success",

@@ -52,7 +52,7 @@ exports.getPrograms = AsyncHandler(async (req, res)=>{
 // GET /api/v1/programs/:id
 //@acess private
 exports.getProgram = AsyncHandler( async(req, res)=>{
-    const programFound = await Program.findById(req.params.id);
+    const programFound = await Program.findById(req.params.id).populate("subjects");
 
     if(programFound){
         res.status(200).json({
