@@ -38,6 +38,18 @@ const adminSchema = new mongoose.Schema(
                 ref: "ClassLevel",
             }, 
         ],
+        programs: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Program",
+            }, 
+        ],
+        yearGroups: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "YearGroup",
+            }, 
+        ],
         teachers: [
             {
                 type: mongoose.Schema.Types.ObjectId,

@@ -1,4 +1,4 @@
-const mongoose =requie('mongoose'); 
+const mongoose =require('mongoose'); 
 const {Schema} = mongoose; 
 
 
@@ -52,9 +52,7 @@ const teacherSchema = new mongoose.Schema(
         default: "teacher",
     },
     subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Course",
-        required: true,
+        type: String,
     },
     applicationStatus: {
         type: String,
@@ -62,20 +60,15 @@ const teacherSchema = new mongoose.Schema(
         default: "pending",
     },
     program: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Program",
-        required: true,
+        type: String,
 
     },
     //A teacher can teach in more than one class level
     classLevel: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ClassLevel",
+        type: String,
     },
     academicYear: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "AcademicYear",
-        required: true,
+        type: String,
     },
     examsCreated: [
         {
@@ -85,15 +78,13 @@ const teacherSchema = new mongoose.Schema(
         },
     ],
     createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: "AcademicTerm",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CreatedBy",
         required: true, 
 
     },
     academicTerm: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "AcademicTerm",
-        required: true,
+        type: String,
     }, 
   
     },

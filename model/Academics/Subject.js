@@ -1,4 +1,4 @@
-const mongoose =requie('mongoose'); 
+const mongoose =require('mongoose'); 
 const {Schema} = mongoose; 
 
 
@@ -13,22 +13,22 @@ const subjectSchema = new Schema(
             required: true, 
         },
         teacher:[{
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Teacher",
         },
         ],
         academicTerm: {
-            type: Schema.Type.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "AcademicTerm", 
             required: true,
         },
         createdBy:{
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Admin", 
             required: true, 
         },
         createdBy:{
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Admin",
             required: true, 
 

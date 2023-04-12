@@ -15,7 +15,7 @@ const yearGroupSchema = new Schema(
             required: true,
         },
         academicYear: {
-            type: mongoose.Schema.Type.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "AcademicYear", 
             required: true, 
         }, 
