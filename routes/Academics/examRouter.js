@@ -5,17 +5,28 @@ const isLoggedInTeacher = require('../../middleware/isLoggedInTeacher');
 const isTeacher = require('../../middleware/isTeacher'); 
 //middleware checks if user is an Admin
 const isAdmin = require('../../middleware/isAdmin'); 
-const {createExam, getExams} = require('../../controller/Academics/examCtrl');
+const {createExam, getExams, getExam, updateExam, deleteExam} = require('../../controller/Academics/examCtrl');
 
 
 //create new exam router
 const examRouter = express.Router();
 
-//teacher create exam
-examRouter.post('/', isLoggedInTeacher, isTeacher, createExam); 
 
-//fetch all exams
-examRouter.get('/', isLoggedInTeacher, isTeacher, getExams);
+examRouter.route('/')
+//teacher create exam
+.post(isLoggedInTeacher, isTeacher, createExam)
+//get all exams
+.get(isLoggedInTeacher, isTeacher, getExams)
+
+
+examRouter.route('/:id')
+//get single exam
+.get(isLoggedInTeacher, isTeacher,getExam)
+//update exam
+.put(isLoggedInTeacher, isTeacher, updateExam)
+//delete exam
+.delete(isLoggedInTeacher, isTeacher,deleteExam)
+
 
 
 
