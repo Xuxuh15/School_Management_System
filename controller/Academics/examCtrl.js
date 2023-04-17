@@ -74,6 +74,7 @@ exports.createExam = AsyncHandler(async(req,res)=>{
 //@access Private
 
 exports.getExams = AsyncHandler(async(req,res)=>{
+    //fetch all exams
     const exams = await Exam.find(); 
 
     res.status(200).json({
@@ -81,4 +82,99 @@ exports.getExams = AsyncHandler(async(req,res)=>{
         message: "Exams successfully fetched",
         data: exams
     });
+}); 
+
+//@desc Get single exam
+// GET /api/v1/exams/:id
+//@access Private
+
+exports.getExam = AsyncHandler(async(req, res)=>{
+    //find exam by id
+    const examFound = await Exam.findById(req.params.id); 
+
+    if(!examFound){
+        throw new Error('Exam could not be found');
+    }
+
+    res.status(200).json({
+        status: "Success",
+        message: "Exam successfully found",
+        data: examFound
+    });
+
 })
+
+//@desc Update exam
+// PUT /api/v1/exams/:id
+//@access Private
+
+exports.updateExam = AsyncHandler(async(req,res)=>{
+     //grab paramters
+     const {
+        name,
+        description,
+        academicTerm,
+        academicYear,
+        classLevel,
+        createdBy,
+        duration,
+        examDate,
+        examStatus,
+        examTime,
+        examType,
+        subject,
+        program, 
+    } = req.body; 
+
+    //check if exam exists already
+
+    const examFound = await Exam.findOne({name}); 
+
+    if(examFound){
+        throw new Error('Exam already exists');
+    }
+
+    const examToUpdate = await Exam.findByIdAndUpdate(req.params.id,{
+        name,
+        description,
+        academicTerm,
+        academicYear,
+        classLevel,
+        createdBy,
+        duration,
+        examDate,
+        examStatus,
+        examTime,
+        examType,
+        subject,
+        program,
+        createdBy: req.userAuth._id 
+    },
+    {
+        new: true
+    });
+    res.status(201).json({
+        status: "Success",
+        message: "Exam successfully updated",
+        data: examToUpdate
+    }); 
+})
+
+//@desc Delete exam
+// DELETE /api/v1/exams/:id
+//@access Private
+
+exports.deleteExam = AsyncHandler(async(req,res)=>{
+    //check if exam exists
+    const examToDelete = await Exam.findById(req.params.id); 
+    if(!examToDelete){
+        throw new Error('Exam could not be found');
+    }
+
+    await Exam.findByIdAndDelete(req.params.id); 
+
+    res.status(200).json({
+        status: "Success",
+        message: "Exam was successfully deleted"
+    });
+}); 
