@@ -33,6 +33,10 @@ const yearGroupRouter = require('../routes/Academics/yearGroupRouter');
 //teacher router
 const teacherRouter = require('../routes/Staff/teacherRouter');
 
+//exam router
+
+const examRouter = require('../routes/Academics/examRouter');
+
 //Middlewares
 
 app.use(morgan("dev")); 
@@ -64,6 +68,9 @@ app.use("/api/v1/year-groups", yearGroupRouter);
 
 //Teacher route
 app.use("/api/v1/teachers", teacherRouter);
+
+//Exam Router
+app.use('/api/v1/exams', examRouter); 
 
 //Error Middleware
 //catches errors from routes and sends them back in JSON format
