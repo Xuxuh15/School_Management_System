@@ -22,7 +22,7 @@ exports.createExam = AsyncHandler(async(req,res)=>{
         examTime,
         examType,
         subject,
-        program
+        program, 
     } = req.body; 
     //push exam into teacher
 
@@ -33,7 +33,7 @@ exports.createExam = AsyncHandler(async(req,res)=>{
 
     //chekc if exam exists
     const examFound = await Exam.findOne({name});
-    if(examExists){
+    if(examFound){
         throw new Error('Exam already exists');
     }
 
@@ -52,6 +52,7 @@ exports.createExam = AsyncHandler(async(req,res)=>{
         examType,
         subject,
         program,
+        createdBy: req.userAuth?._id,
     }); 
 
     //push the exam into teacher
@@ -67,3 +68,17 @@ exports.createExam = AsyncHandler(async(req,res)=>{
     });
 
 });
+
+//@desc Get all exams
+// GET /api/v1/exams
+//@access Private
+
+exports.getExams = AsyncHandler(async(req,res)=>{
+    const exams = await Exam.find(); 
+
+    res.status(200).json({
+        status: "Success",
+        message: "Exams successfully fetched",
+        data: exams
+    });
+})
