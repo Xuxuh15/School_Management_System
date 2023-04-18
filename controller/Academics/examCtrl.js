@@ -178,3 +178,5 @@ exports.deleteExam = AsyncHandler(async(req,res)=>{
         message: "Exam was successfully deleted"
     });
 }); 
+
+
