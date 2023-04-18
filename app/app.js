@@ -34,8 +34,13 @@ const yearGroupRouter = require('../routes/Academics/yearGroupRouter');
 const teacherRouter = require('../routes/Staff/teacherRouter');
 
 //exam router
-
 const examRouter = require('../routes/Academics/examRouter');
+
+//Student Router
+const studentRouter = require('../routes/Students/studentRouter');
+
+//Questions Router
+const questionsRouter = require('../routes/Academics/questionsRouter');
 
 //Middlewares
 
@@ -71,6 +76,12 @@ app.use("/api/v1/teachers", teacherRouter);
 
 //Exam Router
 app.use('/api/v1/exams', examRouter); 
+
+//Student Router
+app.use('/api/v1/students', studentRouter);
+
+//Questions router
+app.use('/api/v1/questions', questionsRouter); 
 
 //Error Middleware
 //catches errors from routes and sends them back in JSON format
