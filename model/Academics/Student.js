@@ -18,14 +18,14 @@ const StudentSchema = new Schema(
         studentId: {
             type: String,
             required: true,
-            default: function(){
+            default: function (){
                 return(
                     "STU" + Math.floor(100 + Math.random()*900) +
                     Date.now().toString().slice(2,4) + this.name
-                    .split("")
+                    .split(" ")
                     .map((name) =>{
                         name[0]
-                    }).join("").toUpeprCase()
+                    }).join("").toUpperCase()
                 );
             },
         },
@@ -38,9 +38,8 @@ const StudentSchema = new Schema(
         //Keeps track of class level student is in
         classLevels: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "ClassLevel",
-                required: true,
+                type: String,
+                //required: true,
             },
 
         ],
@@ -54,7 +53,7 @@ const StudentSchema = new Schema(
         academicYear: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "AcademicYear",
-            required: true,
+            //required: true,
         },
         dateAdmitted: {
             type: Date,
@@ -69,7 +68,7 @@ const StudentSchema = new Schema(
         program: {
             type: mongoose.Schema.Types.ObjectId, 
             ref: "Program",
-            required: true,
+            //required: true,
         },
         isPromotedToLevel200: {
             type: Boolean,
