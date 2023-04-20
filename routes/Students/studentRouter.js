@@ -5,7 +5,7 @@ const isLoggedInStudent = require('../../middleware/isLoggedInStudent');
 const isStudent = require('../../middleware/isStudent'); 
 //middleware checks if user is an Admin
 const isAdmin = require('../../middleware/isAdmin'); 
-const {adminRegisterStudent,loginStudent, getStudentProfile, adminFetchAllStudents, adminGetSingleStudent, updateStudentProfile, adminUpdateStudent} = require('../../controller/Students/studentCtrl');
+const {adminRegisterStudent,loginStudent, getStudentProfile, adminFetchAllStudents, adminGetSingleStudent, updateStudentProfile, adminUpdateStudent, writeExam} = require('../../controller/Students/studentCtrl');
 
 
 
@@ -32,6 +32,9 @@ studentRouter.put('/update', isLoggedInStudent, isStudent, updateStudentProfile)
 
 //admin update student profile
 studentRouter.put('/:studentID/update/admin', isLoggedIn, isAdmin, adminUpdateStudent);
+
+//student take exam
+studentRouter.post('/exam/:examID/write', isLoggedInStudent, isStudent, writeExam);
 
 
 
