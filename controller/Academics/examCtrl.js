@@ -36,6 +36,7 @@ exports.createExam = AsyncHandler(async(req,res)=>{
     if(examFound){
         throw new Error('Exam already exists');
     }
+    
 
     //create
     const examCreated = await new Exam({
@@ -75,7 +76,12 @@ exports.createExam = AsyncHandler(async(req,res)=>{
 
 exports.getExams = AsyncHandler(async(req,res)=>{
     //fetch all exams
-    const exams = await Exam.find(); 
+    const exams = await Exam.find().populate({
+        path: "questions",
+        populate: {
+            path: "createdBy"
+        }
+    });
 
     res.status(200).json({
         status: "Success",
@@ -90,7 +96,7 @@ exports.getExams = AsyncHandler(async(req,res)=>{
 
 exports.getExam = AsyncHandler(async(req, res)=>{
     //find exam by id
-    const examFound = await Exam.findById(req.params.id); 
+    const examFound = await Exam.findById(req.params.id).populate('questions'); 
 
     if(!examFound){
         throw new Error('Exam could not be found');
